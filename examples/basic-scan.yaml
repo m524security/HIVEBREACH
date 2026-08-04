@@ -1,0 +1,30 @@
+# HiveBreach Basic Scan Pipeline
+# A minimal example: single-target reconnaissance scan.
+
+pipeline:
+  - id: recon-phase
+    agent: recon-agent
+    action: scan
+    target: "10.10.10.5"
+    options:
+      scan_type: quick
+      ports: "1-1000"
+      rate: 1000
+
+scope:
+  allowed_targets:
+    - "10.10.10.0/24"
+  deny_list:
+    - "10.10.10.1"
+  allowed_actions:
+    - scan
+    - enumerate
+  max_depth: 1
+
+output:
+  format: json
+  dir: ./results/recon
+
+logging:
+  level: info
+  file: ./logs/basic-scan.log

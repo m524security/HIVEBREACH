@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  sandbox:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hivebreach-sandbox:latest
+    container_name: hb-sandbox
+    hostname: sandbox
+    restart: "no"
+    networks:
+      - hivebreach
+    volumes:
+      - sandbox-workspace:/workspace
+    environment:
+      - SANDBOX_ID=default
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPU_LIMIT:-1.0}"
+          memory: "${MEMORY_LIMIT:-512M}"
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_RAW
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  hivebreach:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+
+volumes:
+  sandbox-workspace:
+    driver: local

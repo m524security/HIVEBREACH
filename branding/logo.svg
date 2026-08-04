@@ -1,0 +1,77 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="coreMagenta" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF2E9A" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FF2E9A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nodeCyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#00F0FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#00F0FF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- void backdrop -->
+  <rect x="0" y="0" width="512" height="512" rx="64" fill="#05060A"/>
+  <rect x="0" y="0" width="512" height="512" rx="64" fill="none" stroke="#12202E" stroke-width="1"/>
+
+  <!-- radar sweep wedge -->
+  <path d="M256,256 L324,68 A200,200 0 0 1 453,221 Z" fill="url(#sweepGrad)"/>
+
+  <!-- HUD rings -->
+  <circle cx="256" cy="256" r="200" fill="none" stroke="#1B2A3D" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="256" cy="256" r="160" fill="none" stroke="#00F0FF" stroke-width="2" stroke-dasharray="6 7" opacity="0.75"/>
+  <circle cx="256" cy="256" r="110" fill="none" stroke="#1B2A3D" stroke-width="1" opacity="0.5"/>
+
+  <!-- crosshair -->
+  <line x1="256" y1="46" x2="256" y2="90" stroke="#00F0FF" stroke-width="1.5" opacity="0.4"/>
+  <line x1="256" y1="422" x2="256" y2="466" stroke="#00F0FF" stroke-width="1.5" opacity="0.4"/>
+  <line x1="46" y1="256" x2="90" y2="256" stroke="#00F0FF" stroke-width="1.5" opacity="0.4"/>
+  <line x1="422" y1="256" x2="466" y2="256" stroke="#00F0FF" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- HUD tick marks -->
+  <g stroke="#00F0FF" stroke-width="2" opacity="0.5">
+    <line x1="452" y1="256" x2="470" y2="256"/>
+    <line x1="426" y1="354" x2="441" y2="363"/>
+    <line x1="354" y1="426" x2="363" y2="441"/>
+    <line x1="256" y1="452" x2="256" y2="470"/>
+    <line x1="158" y1="426" x2="149" y2="441"/>
+    <line x1="86" y1="354" x2="71" y2="363"/>
+    <line x1="60" y1="256" x2="42" y2="256"/>
+    <line x1="86" y1="158" x2="71" y2="149"/>
+    <line x1="158" y1="86" x2="149" y2="71"/>
+    <line x1="256" y1="60" x2="256" y2="42"/>
+    <line x1="354" y1="86" x2="363" y2="71"/>
+    <line x1="426" y1="158" x2="441" y2="149"/>
+  </g>
+
+  <!-- orbiting agent nodes, neural links to core -->
+  <g>
+    <path d="M256,256 Q290,180 311,106" fill="none" stroke="#00F0FF" stroke-width="1.5" opacity="0.55"/>
+    <path d="M256,256 Q345,240 414,228" fill="none" stroke="#00F0FF" stroke-width="1.5" opacity="0.55"/>
+    <path d="M256,256 Q305,330 336,395" fill="none" stroke="#00F0FF" stroke-width="1.5" opacity="0.55"/>
+    <path d="M256,256 Q185,300 117,336" fill="none" stroke="#00F0FF" stroke-width="1.5" opacity="0.55"/>
+    <path d="M256,256 Q190,205 133,153" fill="none" stroke="#00F0FF" stroke-width="1.5" opacity="0.55"/>
+
+    <circle cx="311" cy="106" r="12" fill="url(#nodeCyan)"/><circle cx="311" cy="106" r="4" fill="#00F0FF"/>
+    <circle cx="414" cy="228" r="12" fill="url(#nodeCyan)"/><circle cx="414" cy="228" r="4" fill="#00F0FF"/>
+    <circle cx="336" cy="395" r="12" fill="url(#nodeCyan)"/><circle cx="336" cy="395" r="4" fill="#00F0FF"/>
+    <circle cx="117" cy="336" r="12" fill="url(#nodeCyan)"/><circle cx="117" cy="336" r="4" fill="#00F0FF"/>
+    <circle cx="133" cy="153" r="12" fill="url(#nodeCyan)"/><circle cx="133" cy="153" r="4" fill="#00F0FF"/>
+  </g>
+
+  <!-- fractured core -->
+  <polygon points="256,226 286,256 256,286 226,256" fill="#0D1420" stroke="#FF2E9A" stroke-width="3.5"/>
+
+  <!-- breach crack firing out past the perimeter -->
+  <polyline points="276,236 330,190 390,140 432,108"
+            fill="none" stroke="#FF2E9A" stroke-width="4.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="432" cy="108" r="18" fill="url(#coreMagenta)"/>
+  <circle cx="432" cy="108" r="4" fill="#FF2E9A"/>
+  <circle cx="350" cy="175" r="3" fill="#00F0FF" opacity="0.8"/>
+  <circle cx="300" cy="205" r="2" fill="#00F0FF" opacity="0.6"/>
+</svg>

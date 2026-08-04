@@ -1,0 +1,69 @@
+<svg viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bCoreMagenta" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF2E9A" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#FF2E9A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bNodeCyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#00F0FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bSweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#00F0FF" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="1" fill="#00F0FF" opacity="0.045"/>
+    </pattern>
+  </defs>
+
+  <!-- void backdrop -->
+  <rect x="0" y="0" width="1200" height="300" fill="#05060A"/>
+  <rect x="0" y="0" width="1200" height="300" fill="url(#scanlines)"/>
+
+  <!-- sweep -->
+  <path d="M150,150 L188,47 A110,110 0 0 1 258,131 Z" fill="url(#bSweepGrad)"/>
+
+  <!-- HUD rings -->
+  <circle cx="150" cy="150" r="110" fill="none" stroke="#1B2A3D" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="150" cy="150" r="88" fill="none" stroke="#00F0FF" stroke-width="1.5" stroke-dasharray="5 6" opacity="0.75"/>
+  <circle cx="150" cy="150" r="60" fill="none" stroke="#1B2A3D" stroke-width="1" opacity="0.5"/>
+
+  <!-- orbit nodes + neural links -->
+  <g>
+    <path d="M150,150 Q168,108 180,67" fill="none" stroke="#00F0FF" stroke-width="1.3" opacity="0.55"/>
+    <path d="M150,150 Q175,190 194,226" fill="none" stroke="#00F0FF" stroke-width="1.3" opacity="0.55"/>
+    <path d="M150,150 Q110,175 74,194" fill="none" stroke="#00F0FF" stroke-width="1.3" opacity="0.55"/>
+    <path d="M150,150 Q113,120 83,93" fill="none" stroke="#00F0FF" stroke-width="1.3" opacity="0.55"/>
+
+    <circle cx="180" cy="67" r="9" fill="url(#bNodeCyan)"/><circle cx="180" cy="67" r="3" fill="#00F0FF"/>
+    <circle cx="194" cy="226" r="9" fill="url(#bNodeCyan)"/><circle cx="194" cy="226" r="3" fill="#00F0FF"/>
+    <circle cx="74" cy="194" r="9" fill="url(#bNodeCyan)"/><circle cx="74" cy="194" r="3" fill="#00F0FF"/>
+    <circle cx="83" cy="93" r="9" fill="url(#bNodeCyan)"/><circle cx="83" cy="93" r="3" fill="#00F0FF"/>
+  </g>
+
+  <!-- fractured core -->
+  <polygon points="150,132 168,150 150,168 132,150" fill="#0D1420" stroke="#FF2E9A" stroke-width="2.5"/>
+
+  <!-- breach crack -->
+  <polyline points="163,137 188,110 215,80 238,58"
+            fill="none" stroke="#FF2E9A" stroke-width="3.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="238" cy="58" r="13" fill="url(#bCoreMagenta)"/>
+  <circle cx="238" cy="58" r="3" fill="#FF2E9A"/>
+  <circle cx="178" cy="122" r="2" fill="#00F0FF" opacity="0.8"/>
+
+  <!-- glitch-split wordmark: magenta + cyan offsets behind solid white -->
+  <text x="303" y="151" font-family="'Arial Black', Arial, sans-serif" font-size="68"
+        font-weight="900" letter-spacing="2" fill="#FF2E9A" opacity="0.55">HIVEBREACH</text>
+  <text x="297" y="149" font-family="'Arial Black', Arial, sans-serif" font-size="68"
+        font-weight="900" letter-spacing="2" fill="#00F0FF" opacity="0.55">HIVEBREACH</text>
+  <text x="300" y="150" font-family="'Arial Black', Arial, sans-serif" font-size="68"
+        font-weight="900" letter-spacing="2" fill="#EAF6FF">HIVEBREACH</text>
+
+  <!-- tagline, terminal-style prompt prefix -->
+  <text x="302" y="188" font-family="'Courier New', monospace" font-size="16"
+        letter-spacing="2" fill="#00F0FF" opacity="0.75">
+    &gt; AUTONOMOUS MULTI-AGENT PENETRATION TESTING FRAMEWORK_
+  </text>
+</svg>

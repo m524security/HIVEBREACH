@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Sessions & audit data
+sessions/
+*.session
+
+# Environment
+.env
+.env.local
+*.env
+
+# Vault keys
+vault/
+*.key
+*.pem
+*.crt
+
+# Sandbox images
+sandbox/
+*.img
+*.qcow2
+*.vmdk
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/
+
+# Benchmark reports (generated artifacts)
+reports/benchmarks/

@@ -1,0 +1,54 @@
+{
+  "target": "webgoat",
+  "description": "OWASP WebGoat (Java/Spring, WebWolf on 9090)",
+  "vulnerabilities": [
+    {
+      "id": "WG-SQLI-001",
+      "class": "sqli",
+      "severity": "critical",
+      "endpoint": "/WebGoat/SqlInjectionMitigation/servers",
+      "method": "POST",
+      "parameter": "column",
+      "technique": "SQL injection in order-by / column parameter",
+      "mitre": "T1190",
+      "owasp": "A03:2021",
+      "detectable_by": ["sqli"]
+    },
+    {
+      "id": "WG-XXE-001",
+      "class": "xxe",
+      "severity": "high",
+      "endpoint": "/WebGoat/xxe/simple4",
+      "method": "POST",
+      "parameter": "body",
+      "technique": "XML External Entity in comment body",
+      "mitre": "T1190",
+      "owasp": "A03:2021",
+      "detectable_by": ["xxe"]
+    },
+    {
+      "id": "WG-AUTH-001",
+      "class": "auth_bypass",
+      "severity": "medium",
+      "endpoint": "/WebGoat/login",
+      "method": "POST",
+      "parameter": "username",
+      "technique": "Account enumeration via response difference",
+      "mitre": "T1589",
+      "owasp": "A07:2021",
+      "detectable_by": ["auth_bypass"]
+    },
+    {
+      "id": "WG-MISCONF-001",
+      "class": "misconfiguration",
+      "severity": "low",
+      "endpoint": "/WebGoat/",
+      "method": "GET",
+      "parameter": null,
+      "technique": "Version disclosure in Server header / error pages",
+      "mitre": "T1592",
+      "owasp": "A05:2021",
+      "detectable_by": ["misconfiguration"]
+    }
+  ]
+}

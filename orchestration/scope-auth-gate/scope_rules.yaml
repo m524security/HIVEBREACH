@@ -1,0 +1,163 @@
+# =============================================================================
+# HiveBreach — Rules of Engagement (RoE) Scope Definition
+# =============================================================================
+# This file defines the authorized scope for a penetration testing engagement.
+# The ScopeEnforcer uses ONLY this file to make deterministic allow/deny
+# decisions — no LLM is consulted.
+#
+# Every field is optional; leaving a sub-section empty means "no restriction"
+# for that dimension. However, at minimum, authorized_domains OR
+# authorized_ip_ranges should be set to define the engagement boundary.
+# =============================================================================
+
+# --- Engagement metadata ---
+title: "Example Penetration Test — Client A"
+client_name: "Acme Corp"
+engagement_id: "PT-2026-001"
+
+# ISO 8601 date strings
+effective_date: "2026-01-01"
+expiration_date: "2026-12-31"
+
+# =============================================================================
+# SCOPE DEFINITION
+# =============================================================================
+# Define what's IN scope. Wildcards supported via fnmatch patterns.
+# All targets are validated against these lists.
+# ---------------------------------------------------------------------------
+scope:
+  # --- Authorized Domains (fnmatch patterns) ---
+  # Examples: "*.acme.com", "app.acme.com", "*.acme-cloud.io"
+  authorized_domains:
+    - "*.acme.com"
+    - "acme.com"
+    - "api.acme.io"
+    - "*.staging.acme.io"
+    - "git.acme.corp"
+
+  # --- Authorized IP Ranges (CIDR notation) ---
+  authorized_ip_ranges:
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.1.0/24"
+    - "203.0.113.0/24"
+
+  # --- Authorized Repositories (for source-code review) ---
+  # Supports org/repo patterns and full URLs
+  authorized_repos:
+    - "github.com/acme/*"
+    - "gitlab.acme.corp/*/*"
+    - "https://github.com/acme/backend-api"
+
+  # --- Authorized Cloud Accounts (ARNs, project IDs, etc.) ---
+  authorized_cloud_accounts:
+    - "arn:aws:iam::123456789012:root"
+    - "gcp-project:acme-production-001"
+
+  # --- EXCLUDED targets (take priority over authorized lists) ---
+  excluded_domains:
+    - "hr.acme.com"              # HR systems are off-limits
+    - "payments.acme.com"        # payment processing excluded
+    - "*.prod.acme.com"          # all production subdomains excluded
+
+  excluded_ip_ranges:
+    - "10.0.100.0/24"            # management network excluded
+
+  excluded_paths:
+    - "/admin"
+    - "/internal"
+    - "/.git"
+
+# =============================================================================
+# RULES OF ENGAGEMENT
+# =============================================================================
+# Defines what actions, techniques, and severities are permitted.
+# ---------------------------------------------------------------------------
+rules:
+  # --- Authorized Action Types ---
+  # Subset of: recon, scan, fingerprint, exploit, post_exploit,
+  #            credential_attack, social_engineering, wireless,
+  #            denial_of_service, physical, reporting, cleanup
+  authorized_action_types:
+    - recon
+    - scan
+    - fingerprint
+    - exploit
+    - post_exploit
+    - credential_attack
+    - reporting
+    - cleanup
+
+  prohibited_action_types:
+    - denial_of_service
+    - social_engineering
+    - physical
+    - wireless
+
+  # --- MITRE ATT&CK Technique Control ---
+  authorized_techniques: []  # empty = all techniques allowed (except prohibited)
+
+  prohibited_techniques:
+    - "T1498"       # Network Denial of Service
+    - "T1499"       # Endpoint Denial of Service
+    - "T1565"       # Data Manipulation (destructive)
+    - "T1485"       # Data Destruction
+    - "T1561"       # Disk Wipe
+    - "T1529"       # System Shutdown/Reboot
+
+  # --- Port Restrictions ---
+  allowed_ports: []       # empty = all ports allowed
+  prohibited_ports:
+    - 22                   # SSH excluded (use VPN/Jumpbox only)
+
+  # --- Severity Cap ---
+  max_severity: "critical"  # "critical" = no cap; "high", "medium", "low" to restrict
+
+  # --- Time Budget ---
+  time_budget_hours: 8       # maximum engagement window
+
+  # --- Concurrency Limits ---
+  concurrent_connections_max: 10
+
+  # --- Techniques Requiring Explicit Human Approval ---
+  requires_explicit_approval:
+    - "T1003"       # OS Credential Dumping (hash extraction)
+    - "T1110"       # Brute Force (password spraying beyond 3 attempts)
+    - "T1550"       # Use Alternate Authentication Material (pass-the-hash)
+    - "T1558"       # Steal or Forge Kerberos Tickets
+
+  # --- Special Conditions ---
+  special_conditions:
+    - "No testing between 09:00-17:00 local time (production systems)"
+    - "All credential attacks must use the provided wordlist only"
+    - "Any found PII must be reported immediately and not stored"
+    - "Cleanup must be verified after every exploit attempt"
+
+# =============================================================================
+# AUTHORIZATION HEADERS
+# =============================================================================
+# Headers to inject into all outbound requests (API tokens, etc.)
+# ---------------------------------------------------------------------------
+authorization:
+  headers:
+    - name: "X-Auth-Token"
+      value: ""               # set per-engagement
+      type: "api-key"
+    - name: "Authorization"
+      value: ""               # set per-engagement
+      type: "bearer"
+
+# =============================================================================
+# CONTACT & ESCALATION
+# =============================================================================
+contact:
+  primary:
+    name: "Jane Smith"
+    email: "jane.smith@acme.com"
+    phone: "+1-555-0100"
+  security_team:
+    email: "security@acme.com"
+    slack: "#security-eng"
+  escalation:
+    - "Immediate: call primary contact"
+    - "Within 15min: email security team with 'ENGAGEMENT ALERT' subject"

@@ -1,0 +1,54 @@
+{
+  "target": "vampi",
+  "description": "VAmPI - Vulnerable REST API (Flask/SQLite)",
+  "vulnerabilities": [
+    {
+      "id": "VAMPI-UNAUTH-001",
+      "class": "unauth_api",
+      "severity": "critical",
+      "endpoint": "/users/v1",
+      "method": "GET",
+      "parameter": null,
+      "technique": "Unauthenticated user enumeration (GET /users/v1 no auth required)",
+      "mitre": "T1595",
+      "owasp": "A01:2021",
+      "detectable_by": ["unauth_api"]
+    },
+    {
+      "id": "VAMPI-SQLI-001",
+      "class": "sqli",
+      "severity": "critical",
+      "endpoint": "/users/v1/{username}",
+      "method": "GET",
+      "parameter": "username",
+      "technique": "SQL injection in username path parameter (v1)",
+      "mitre": "T1190",
+      "owasp": "A03:2021",
+      "detectable_by": ["sqli"]
+    },
+    {
+      "id": "VAMPI-IDOR-001",
+      "class": "auth_bypass",
+      "severity": "high",
+      "endpoint": "/users/v1/{username}",
+      "method": "DELETE",
+      "parameter": "username",
+      "technique": "IDOR: delete any user without being admin (v1 broken auth)",
+      "mitre": "T1078",
+      "owasp": "A01:2021",
+      "detectable_by": ["auth_bypass"]
+    },
+    {
+      "id": "VAMPI-PII-001",
+      "class": "unauth_api",
+      "severity": "medium",
+      "endpoint": "/users/v2/_count",
+      "method": "GET",
+      "parameter": null,
+      "technique": "Sensitive data exposure - PII in API response",
+      "mitre": "T1005",
+      "owasp": "A02:2021",
+      "detectable_by": ["unauth_api"]
+    }
+  ]
+}
