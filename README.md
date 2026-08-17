@@ -2,10 +2,6 @@
   <img src="./branding/banner.svg" alt="HiveBreach — Autonomous Multi-Agent Penetration Testing Framework" width="100%"/>
 </p>
 
-<p align="center">
-  <img src="./branding/logo.svg" alt="HiveBreach logo" width="96"/>
-</p>
-
 <h1 align="center">HiveBreach</h1>
 <p align="center"><b>Version 1.1.0</b> — Autonomous Multi-Agent AI Penetration Testing Framework</p>
 
@@ -369,6 +365,10 @@ HiveBreach is designed **exclusively for authorised security testing** against s
 - Responsible disclosure applies to all findings affecting third-party software or infrastructure.
 
 Operators are responsible for compliance with all applicable laws (CFAA, Computer Misuse Act, NIS Directive, GDPR/CCPA/LGPD, etc.) and should consult legal counsel before cross-jurisdictional testing.
+
+<p align="center">
+  <img src="./branding/logo.svg" alt="HiveBreach logo" width="96"/>
+</p>
 
 ---
 
