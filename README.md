@@ -26,7 +26,7 @@
 
 ## Overview
 
-HiveBreach is an **autonomous, multi-agent penetration testing framework** built on an ECC (Evolvable Command & Control) architecture. It deploys **41 specialised AI agents** that operate in a coordinated swarm across the full engagement lifecycle — from passive reconnaissance to final report generation.
+HiveBreach is an **autonomous, multi-agent penetration testing framework** built on an ECC (Evolvable Command & Control) architecture. It deploys **20 specialised AI agents** that operate in a coordinated swarm across the full engagement lifecycle — from passive reconnaissance to final report generation.
 
 **Core design principles:**
 
@@ -73,7 +73,7 @@ Six vertically integrated layers:
 |---|---|---|
 | **Execution** | Runtime environment | Docker sandbox, secrets vault, PoC validator |
 | **Knowledge** | Structured playbooks | Skill library, CVE/KEV feed, staging pipeline |
-| **Agent** | Specialist roster | 41 agent cards (YAML), communication bus |
+| **Agent** | Specialist roster | 20 agent cards (YAML), communication bus |
 | **Toolbelt** | Kill-chain-mapped tools | 39-tool registry with risk/sandbox metadata |
 | **Orchestration** | Control plane | Model router, scope gate, sanity checks, scheduler, message bus |
 | **Governance** | Safety & compliance | ROE templates, CRITICAL-RULES R1–R10, audit trail, compliance mapping (SOC2/PCI-DSS/ISO 27001/NIST) |
@@ -82,7 +82,7 @@ Six vertically integrated layers:
 
 ## Agents
 
-**41 specialised agents** across six stages. Each is defined by an ECC agent card (`agents/<name>/agent.md`) plus a `master-prompt.md` and deep-aggressive `skill-playbook.md`.
+**20 specialised agents** across six stages. Each is defined by an ECC agent card (`agents/<name>/agent.md`) plus a `master-prompt.md` and deep-aggressive `skill-playbook.md`.
 
 ### Reconnaissance
 
