@@ -1,0 +1,8 @@
+pyyaml
+docker
+cryptography
+requests
+aiohttp
+pydantic
+click
+pytest

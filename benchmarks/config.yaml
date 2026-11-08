@@ -1,0 +1,90 @@
+# =============================================================================
+# HIVEBREACH Detection Benchmark Configuration
+# =============================================================================
+# Measures the framework's detection/exploitation performance against known
+# vulnerable targets. Scoring model: TP / FP / FN / TN, precision / recall / F1,
+# time-to-find per vulnerability class, exploit success rate, chain depth.
+# =============================================================================
+
+targets:
+  dvwa:
+    base_url: "http://127.0.0.1:8080"
+    host: "127.0.0.1"
+    port: 8080
+    container: bench-dvwa
+    description: "Damn Vulnerable Web Application (PHP/MySQL)"
+    auth:
+      login_url: "/login.php"
+      username: "admin"
+      password: "password"
+      session_cookie: "PHPSESSID"
+    security_level: "low"
+    ground_truth: "ground-truth/dvwa.json"
+
+  juice-shop:
+    base_url: "http://127.0.0.1:3000"
+    host: "127.0.0.1"
+    port: 3000
+    container: bench-juice-shop
+    description: "OWASP Juice Shop (Node.js/Express)"
+    auth: {}
+    ground_truth: "ground-truth/juice-shop.json"
+
+  webgoat:
+    base_url: "http://127.0.0.1:8081/WebGoat"
+    host: "127.0.0.1"
+    port: 8081
+    container: bench-webgoat
+    description: "OWASP WebGoat (Java/Spring)"
+    auth: {}
+    ground_truth: "ground-truth/webgoat.json"
+
+  vampi:
+    base_url: "http://127.0.0.1:5000"
+    host: "127.0.0.1"
+    port: 5000
+    container: bench-vampi
+    description: "VAmPI - Vulnerable REST API (Flask)"
+    auth: {}
+    ground_truth: "ground-truth/vampi.json"
+
+scoring:
+  # Weight per metric for the final benchmark score (0-100)
+  weights:
+    precision: 0.30
+    recall: 0.35
+    f1: 0.15
+    exploit_success: 0.15
+    time_bonus: 0.05
+  # A finding must be detected within this window (seconds) to count for the
+  # time-to-find metric; anything slower is marked slow but still counted.
+  time_to_find_budget_s: 600
+  # Severity weight applied to recall: Critical > High > Medium > Low
+  severity_weight:
+    critical: 1.0
+    high: 0.9
+    medium: 0.7
+    low: 0.5
+
+checks:
+  enabled:
+    - sqli
+    - xss
+    - ssrf
+    - command_injection
+    - file_inclusion
+    - auth_bypass
+    - unauth_api
+    - misconfiguration
+  # Per-check timeout before it is killed and marked as a miss
+  check_timeout_s: 300
+  # Concurrency of checks per target
+  max_parallel_checks: 3
+
+run:
+  # Auto-start targets with docker compose when --start is passed
+  compose_file: "docker-compose.yml"
+  # Time to wait for a target container to become healthy
+  container_ready_timeout_s: 120
+  # Global engagement directory for evidence
+  evidence_dir: "reports/benchmarks"

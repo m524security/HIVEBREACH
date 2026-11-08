@@ -1,0 +1,188 @@
+# =============================================================================
+# HiveBreach — LLM Router Configuration
+# =============================================================================
+# Controls which LLM backends are available, rate limits, model selection
+# per task difficulty, and per-agent model assignments.
+#
+# Priority order (when multiple backends are enabled):
+#   1. Agent-specific model mapping (agent_model_map.mappings)
+#   2. Difficulty-based model (difficulty_model_map)
+#   3. Default model per backend
+# =============================================================================
+
+backends:
+  # ---------------------------------------------------------------------------
+  # Ollama (local) — zero cost, hardware-limited
+  # Enabled by default. Models must be pulled locally beforehand.
+  # ---------------------------------------------------------------------------
+  ollama:
+    enabled: true
+    name: "ollama-local"
+    base_url: "http://127.0.0.1:11434"
+    default_model: "llama3.1:8b"
+    max_per_minute: 60      # local instance, conservative
+    burst: 10
+
+  # ---------------------------------------------------------------------------
+  # NVIDIA NIM (hosted) — free tier, ~40 req/min shared limit
+  # Recommended default for cloud-based operation.
+  # API key: env NVIDIA_NIM_API_KEY or set here.
+  # ---------------------------------------------------------------------------
+  nim:
+    enabled: true
+    name: "nvidia-nim"
+    default_model: "meta/llama3.1-8b-instruct"
+    api_key: ""              # set via environment or here
+    max_per_minute: 38       # leaving headroom below 40/min hard limit
+    burst: 5
+
+  # ---------------------------------------------------------------------------
+  # OpenAI — paid per-token
+  # Only enabled when an API key is present.
+  # API key: env OPENAI_API_KEY or set here.
+  # ---------------------------------------------------------------------------
+  openai:
+    enabled: true            # frontier routing: hard/critical tasks
+    name: "openai-api"
+    default_model: "gpt-4o"
+    api_key: ""              # set via environment OPENAI_API_KEY or here
+    max_per_minute: 60
+    burst: 10
+
+  # ---------------------------------------------------------------------------
+  # Anthropic — paid per-token
+  # Only enabled when an API key is present.
+  # API key: env ANTHROPIC_API_KEY or set here.
+  # ---------------------------------------------------------------------------
+  anthropic:
+    enabled: true            # frontier routing: reasoning-heavy analysis
+    name: "anthropic-api"
+    default_model: "claude-3-5-sonnet-20241022"
+    api_key: ""              # set via environment ANTHROPIC_API_KEY or here
+    max_per_minute: 60
+    burst: 10
+
+# =============================================================================
+# Difficulty → Model Mapping
+# =============================================================================
+# Maps task difficulty levels to preferred backend:model combinations.
+# These act as defaults when no agent-specific mapping exists.
+# ---------------------------------------------------------------------------
+difficulty_model_map:
+  trivial:  "ollama:llama3.1:8b"
+  easy:     "ollama:llama3.1:8b"
+  medium:   "nim:meta/llama3.1-8b-instruct"
+  hard:     "anthropic:claude-3-5-sonnet-20241022"
+  critical: "openai:gpt-4o"
+
+# =============================================================================
+# Agent → Model Routing Table
+# =============================================================================
+# Maps agent types (from agent cards) to specific model assignments.
+# The "model" field overrides the difficulty-based default for that agent.
+# The "fallback" field specifies an alternative if the primary is unavailable.
+# ---------------------------------------------------------------------------
+agent_model_map:
+  mappings:
+    # --- Recon & Discovery ---
+    recon-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+    network-expert-agent:
+      model: "nim:meta/llama3.1-70b-instruct"
+      fallback: "ollama:mixtral:8x7b"
+
+    # --- Web & Application ---
+    web-expert-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+    api-testing-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+    active-testing-agent:
+      model: "nim:meta/llama3.1-70b-instruct"
+      fallback: "openai:gpt-4o-mini"
+    server-side-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+    client-side-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+    mobile-app-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+
+    # --- Cloud ---
+    cloud-expert-agent:
+      model: "nim:meta/llama3.1-70b-instruct"
+      fallback: "openai:gpt-4o-mini"
+
+    # --- Exploit & Credential (sandbox-only) ---
+    exploit-poc-agent:
+      model: "openai:gpt-4o"
+      fallback: "nim:meta/llama3.1-70b-instruct"
+    password-credential-agent:
+      model: "openai:gpt-4o-mini"
+      fallback: "nim:meta/llama3.1-8b-instruct"
+    wireless-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+
+    # --- Cross-cutting ---
+    verification-correlation-agent:
+      model: "openai:gpt-4o"
+      fallback: "nim:meta/llama3.1-70b-instruct"
+    cleanup-teardown-agent:
+      model: "ollama:llama3.1:8b"
+      fallback: "nim:meta/llama3.1-8b-instruct"
+    report-agent:
+      model: "nim:meta/llama3.1-70b-instruct"
+      fallback: "openai:gpt-4o-mini"
+
+    # --- Orchestration ---
+    orchestrator:
+      model: "openai:gpt-4o"
+      fallback: "nim:meta/llama3.1-70b-instruct"
+    threat-modeling-agent:
+      model: "openai:gpt-4o-mini"
+      fallback: "nim:meta/llama3.1-70b-instruct"
+    compliance-audit-agent:
+      model: "nim:meta/llama3.1-70b-instruct"
+      fallback: "openai:gpt-4o-mini"
+    sca-sbom-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+    secrets-scanning-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+
+    # --- New vertical agents (2026) ---
+    osint-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+    ai-security-agent:
+      model: "openai:gpt-4o"
+      fallback: "anthropic:claude-3-5-sonnet-20241022"
+    container-escape-agent:
+      model: "anthropic:claude-3-5-sonnet-20241022"
+      fallback: "openai:gpt-4o-mini"
+    supply-chain-agent:
+      model: "openai:gpt-4o-mini"
+      fallback: "anthropic:claude-3-5-sonnet-20241022"
+    version-enum-agent:
+      model: "nim:meta/llama3.1-8b-instruct"
+      fallback: "ollama:llama3.1:8b"
+    hash-cracker-agent:
+      model: "nim:meta/llama3.1-70b-instruct"
+      fallback: "openai:gpt-4o-mini"
+
+# =============================================================================
+# Global Settings
+# =============================================================================
+settings:
+  default_backend: "ollama"       # fallback if nothing matches
+  route_timeout_seconds: 120
+  max_fallback_depth: 3
+  log_prompts: false               # never log full prompts in production
+  log_responses: true
+  cost_tracking: true

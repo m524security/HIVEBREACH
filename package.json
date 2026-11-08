@@ -1,0 +1,16 @@
+{
+  "name": "hivebreach",
+  "version": "0.1.0",
+  "description": "ECC-agent-harness-based autonomous penetration testing framework with 20 specialised agents operating under the HiveBreach ECC framework",
+  "private": true,
+  "scripts": {
+    "setup": "pip install -e .",
+    "lint": "flake8 hivebreach/",
+    "test": "pytest tests/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anomalyco/hivebreach"
+  },
+  "license": "MIT"
+}

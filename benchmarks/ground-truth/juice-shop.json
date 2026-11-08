@@ -1,0 +1,66 @@
+{
+  "target": "juice-shop",
+  "description": "OWASP Juice Shop (Node.js/Express)",
+  "vulnerabilities": [
+    {
+      "id": "JS-SQLI-001",
+      "class": "sqli",
+      "severity": "critical",
+      "endpoint": "/rest/products/search?q=",
+      "method": "GET",
+      "parameter": "q",
+      "technique": "SQL injection in product search",
+      "mitre": "T1190",
+      "owasp": "A03:2021",
+      "detectable_by": ["sqli"]
+    },
+    {
+      "id": "JS-XSS-001",
+      "class": "xss",
+      "severity": "high",
+      "endpoint": "/rest/products/search?q=",
+      "method": "GET",
+      "parameter": "q",
+      "technique": "Reflected XSS in search results",
+      "mitre": "T1059.007",
+      "owasp": "A03:2021",
+      "detectable_by": ["xss"]
+    },
+    {
+      "id": "JS-UNAUTH-001",
+      "class": "unauth_api",
+      "severity": "high",
+      "endpoint": "/rest/admin/application-version",
+      "method": "GET",
+      "parameter": null,
+      "technique": "Unauthenticated admin API endpoint exposing app version",
+      "mitre": "T1082",
+      "owasp": "A01:2021",
+      "detectable_by": ["unauth_api"]
+    },
+    {
+      "id": "JS-XSS-STORE-001",
+      "class": "xss",
+      "severity": "high",
+      "endpoint": "/rest/products/search?q=",
+      "method": "GET",
+      "parameter": "q",
+      "technique": "XSS via JSON error handler (bundle trick)",
+      "mitre": "T1059.007",
+      "owasp": "A03:2021",
+      "detectable_by": ["xss"]
+    },
+    {
+      "id": "JS-MISCONF-001",
+      "class": "misconfiguration",
+      "severity": "low",
+      "endpoint": "/",
+      "method": "GET",
+      "parameter": null,
+      "technique": "Verbose error messages / exposed stack traces",
+      "mitre": "T1592",
+      "owasp": "A05:2021",
+      "detectable_by": ["misconfiguration"]
+    }
+  ]
+}

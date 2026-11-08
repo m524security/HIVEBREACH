@@ -1,0 +1,82 @@
+# HiveBreach Full Pipeline Example
+# End-to-end: reconnaissance → enumeration → exploitation → validation.
+
+pipeline:
+  - id: recon-phase
+    agent: recon-agent
+    action: scan
+    target: "${TARGET}"
+    options:
+      scan_type: full
+      ports: "1-65535"
+      rate: 5000
+      os_detection: true
+
+  - id: enumerate-phase
+    agent: recon-agent
+    action: enumerate
+    depends_on: [recon-phase]
+    options:
+      services: [http, ssh, smb, mysql]
+      brute_force: false
+      scripts: [banner, ssl-enum]
+
+  - id: exploit-phase
+    agent: exploit-agent
+    action: exploit
+    depends_on: [enumerate-phase]
+    options:
+      cvss_min: 7.0
+      safe_only: true
+      timeout: 300
+
+  - id: validate-phase
+    agent: validator-agent
+    action: validate
+    depends_on: [exploit-phase]
+    options:
+      track: exploit-verified
+      collect_evidence: true
+      confidence_threshold: 0.7
+
+scope:
+  allowed_targets:
+    - "${TARGET}"
+  deny_list:
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"
+  allowed_actions:
+    - scan
+    - enumerate
+    - exploit
+    - validate
+  max_depth: 3
+  restrictions:
+    no_dos: true
+    no_social_engineering: true
+    no_physical: true
+
+sandbox:
+  enabled: true
+  image: hivebreach-sandbox:latest
+  memory_limit: "1g"
+  cpu_limit: 2.0
+  time_limit: 3600
+
+output:
+  format: json
+  dir: ./results/${PIPELINE_ID}
+  compress: true
+  include_evidence: true
+
+audit:
+  log_dir: ./governance/audit-trail
+  log_level: debug
+  record_payloads: false
+
+notifications:
+  on_complete:
+    - type: console
+    - type: file
+      path: ./results/notify.json

@@ -1,0 +1,78 @@
+{
+  "target": "dvwa",
+  "description": "Damn Vulnerable Web Application (PHP/MySQL, security_level=low)",
+  "vulnerabilities": [
+    {
+      "id": "DVWA-SQLI-001",
+      "class": "sqli",
+      "severity": "critical",
+      "endpoint": "/vulnerabilities/sqli/?id=1&Submit=Submit",
+      "method": "GET",
+      "parameter": "id",
+      "technique": "UNION/boolean-based SQL injection",
+      "mitre": "T1190",
+      "owasp": "A03:2021",
+      "detectable_by": ["sqli"]
+    },
+    {
+      "id": "DVWA-XSS-001",
+      "class": "xss",
+      "severity": "high",
+      "endpoint": "/vulnerabilities/xss_r/?name=test",
+      "method": "GET",
+      "parameter": "name",
+      "technique": "Reflected XSS",
+      "mitre": "T1059.007",
+      "owasp": "A03:2021",
+      "detectable_by": ["xss"]
+    },
+    {
+      "id": "DVWA-CMDI-001",
+      "class": "command_injection",
+      "severity": "critical",
+      "endpoint": "/vulnerabilities/exec/",
+      "method": "POST",
+      "parameter": "ip",
+      "technique": "Command injection (ping)",
+      "mitre": "T1059",
+      "owasp": "A03:2021",
+      "detectable_by": ["command_injection"]
+    },
+    {
+      "id": "DVWA-LFI-001",
+      "class": "file_inclusion",
+      "severity": "high",
+      "endpoint": "/vulnerabilities/fi/?page=../../../../etc/passwd",
+      "method": "GET",
+      "parameter": "page",
+      "technique": "Local file inclusion",
+      "mitre": "T1083",
+      "owasp": "A01:2021",
+      "detectable_by": ["file_inclusion"]
+    },
+    {
+      "id": "DVWA-AUTH-001",
+      "class": "auth_bypass",
+      "severity": "high",
+      "endpoint": "/vulnerabilities/brute/",
+      "method": "GET",
+      "parameter": "username",
+      "technique": "Weak credentials / brute-forceable login",
+      "mitre": "T1110",
+      "owasp": "A07:2021",
+      "detectable_by": ["auth_bypass"]
+    },
+    {
+      "id": "DVWA-MISCONF-001",
+      "class": "misconfiguration",
+      "severity": "medium",
+      "endpoint": "/",
+      "method": "GET",
+      "parameter": null,
+      "technique": "Missing security headers (X-Frame-Options, CSP, HSTS)",
+      "mitre": "T1195",
+      "owasp": "A05:2021",
+      "detectable_by": ["misconfiguration"]
+    }
+  ]
+}
